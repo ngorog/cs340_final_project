@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="index.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+
+    </head>
+
+
+    <body class='bg-light'>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <nav class="navbar navbar-dark bg-nav d-flex">
+            <!-- Navbar content -->
+            <h3 class='text-white'>
+                <a class='text-white' href="#"><i class="fas fa-bars"></i></a>
+                Lucky Dragon
+            </h3>
+            
+            <img src='logo.png' style='height: 250px'>
+
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <a href="#"> <i class="fas fa-search text-white"></i></a> <!-- uses solid style -->
+                <button class='btn btn-success ml-5'>Login</button>
+            </form>
+        </nav>
+
+        <div class='container'>
+            <!-- Header for Equipment Piece -->
+           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
+                <h4> Menu </h4>
+                <button class='btn btn-info' data-toggle="modal" data-target="#exampleModal">Filter</button>                      
+           </div>
+
+            <!-- Collapsable modules like Pros/Cons/Caveats -->
+
+            <div class='my-3 p-3 bg-white rounded shadow-sm'>
+                <a data-toggle='collapse' href='#collapsePros' role='button' aria-expanded="false" aria-controls='collapsePros'>
+                    <h5 class='border-bottom border-gray pb-2'>Orange Chicken - $7.89</h5>
+                </a>
+
+                <div class='mt-2 collapse show' id='collapsePros'>
+                    <div class='row'>
+                        <div class='col-8'>
+                            <p>
+                                Our signature dish. Crispy chicken wok-tossed in a sweet and spicy orange sauce.
+                            </p>
+                        </div>
+                        <div class='col-4'>
+                            <img src='orange-chicken.jpeg' style="height: 200px">
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class='my-3 p-3 bg-white rounded shadow-sm'>
+                    <a data-toggle='collapse' href='#collapsePros2' role='button' aria-expanded="false" aria-controls='collapsePros2'>
+                        <h5 class='border-bottom border-gray pb-2'>Kung Pao - $6.89</h5>
+                    </a>
+    
+                    <div class='mt-2 collapse show' id='collapsePros2'>
+                        <div class='row'>
+                            <div class='col-8'>
+                                <p>
+                                    A Szechwan-inspired dish with chicken, peanuts and vegetables, finished with chili peppers.
+                                </p>
+                            </div>
+                            <div class='col-4'>
+                                <img src='kung-pao.jpg' style="height: 200px">
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+        <!-- End Container -->
+
+    </body>
+</html>
