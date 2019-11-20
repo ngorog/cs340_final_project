@@ -1,3 +1,36 @@
+<?php
+	session_start();
+	require 'connectdb.php';
+	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+	function alert($msg) {
+		echo "<script type='text/javascript'>alert('$msg');</script>";
+	}	
+	if (isset($_SESSION['AccountId'])) {
+		header("Location: ./index.php");
+	}
+	if (isset($_POST['login'])) {
+		$username = mysqli_real_escape_string($conn, $_POST['username']);
+		$pw = mysqli_real_escape_string($conn, $_POST['pw']);
+		
+		$query = "SELECT AccountId FROM Account
+				  WHERE Username = '".$username."' AND Password = '".$pw."'";
+		
+		$result = mysqli_query($conn, $query);
+		if (!$result) {
+			die("Login failed, please try again");
+		}
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_assoc($result);
+			$_SESSION['AccountId'] = $row['AccountId'];
+			header("Location: ./index.php");
+		}
+		else {
+			alert("Invalid combinations" . $username . $pw);
+		}
+	}
+?> 
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -32,8 +65,26 @@
         <div class='container'>
 			<div class='row mt-3'>
 				<div class='col text-center'>
-					<h2 class='mb-3'>Welcome to Lucky Dragon!</h2>
-                	<button class='btn btn-success btn-lg' type='button' data-toggle="modal" data-target="#exampleModal">Login as Manager/Owner</button>
+					<h2 class='mb-3'>Welcome to Lucky Dragon 
+						<?php if($_SESSION['AccountId']){
+								$sql = "SELECT E.FirstName
+										FROM Account A
+										LEFT JOIN Employees E ON A.EmployeeId = E.EmployeeId
+										WHERE A.AccountId =".$_SESSION['AccountId'].";";
+								$sql_get = $conn->query($sql);
+								$row = $sql_get->fetch_assoc();
+								echo $row['FirstName'];
+								$sql_get->close();
+							}
+						?>!
+					</h2>
+					<?php if(!$_SESSION['AccountId']) :?>
+	                	<button class='btn btn-success btn-lg' type='button' data-toggle="modal" data-target="#exampleModal">Login as Manager/Owner</button>
+					<?php else :?>
+						<a href='menu.php'>
+		                	<button class='btn btn-success btn-lg' type='button'>Continue as Manager/Owner</button>
+						</a>
+					<?php endif ;?>
 					<a href='menu.php'>
 						<button class='btn btn-primary btn-lg'>Order as Customer</button>
 					</a>
@@ -53,23 +104,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action = "" method = "post">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Username</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            <label for="username">Username</label>
+                            <input type="username" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter username">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="pw" name="pw" placeholder="Password">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success">Login</button>
-                </div>
+                		<div class="modal-footer">
+	                   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		               		<button type="submit" class="btn btn-success" name="login" value="login">Login</button>
+						</div>
+					</form>
+                </div>					
+						
                 </div>
             </div>
         </div>
     </body>
-</html>
+</html>                          
