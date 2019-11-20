@@ -13,5 +13,9 @@
 		<a href='employees.php'>
 			<button class='btn btn-dark'>View Employees</button>
 		</a>
+		<a href='orders.php'>
+			<button class='btn btn-dark'>View Orders</button>
+		</a>
+
 	</div>
 </nav>

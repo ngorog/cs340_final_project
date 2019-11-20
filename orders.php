@@ -10,7 +10,7 @@
 <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
-        <title>Employee Information</title>
+        <title>Order Information</title>
         <link rel="stylesheet" href="index.css">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -23,11 +23,11 @@
 
 
     <body class='bg-light'>
-        <?php include 'header.php' ?>
-		<div class='container'>
+		<?php include 'header.php' ?>
+        <div class='container'>
             <!-- Header --> 
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-                <h4> Lucky Dragon Customer Information </h4>
+                <h4> Lucky Dragon Order Information </h4>
                 <button class='btn btn-info'>Filter</button>                      
            </div>
 
@@ -40,17 +40,26 @@
 						<th>First Name</th>
 						<th>Last Name</th>
 						<th>Address</th>
+						<th>Products Ordered</th>
+						<th>Total Price</th>
 					</tr>
 			<?php
-				$sql = "SELECT *
-						FROM Customers";
+				$sql = "SELECT O.OrderID, C.FirstName, C.LastName, C.Address, C.ZipCode, C.City, C.State, P.Price, O.TotalPrice, GROUP_CONCAT(P.ProductName SEPARATOR ', ') as ProductName
+						FROM Orders O
+						LEFT JOIN Customers C ON O.CustomerId = C.CustomerId
+						LEFT JOIN OrderList OL ON O.OrderId = OL.OrderId
+						LEFT JOIN Product P ON OL.ProductId = P.ProductId
+						GROUP BY O.OrderID
+						ORDER BY O.OrderID ASC";
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
 					<tr>
 						<td><?= $row['FirstName']?></td>
 						<td><?= $row['LastName']?></td>
-						<td><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['Zipcode'] ?></td>
+						<td><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['ZipCode']?></td>
+						<td><?= $row['ProductName']?></td>
+						<td><?= $row['TotalPrice']?></td>
 					</tr>
 
 				<?php
