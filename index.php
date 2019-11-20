@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Lucky Dragon</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="index.css">
@@ -25,71 +25,20 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         
-        <nav class="navbar navbar-dark bg-nav d-flex align-items-end">
-            <!-- Navbar content -->
-            <h3 class='text-white'>
-                <a class='text-white' href="#"><i class="fas fa-bars"></i></a>
-                Lucky Dragon
-            </h3>
-            
-            <img src='logo.png' style='height: 250px' class='logo'>
-
-            
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <a href="#"> <i class="fas fa-search text-white"></i></a> <!-- uses solid style -->
-                <button class='btn btn-success ml-5 d-inline' type='button' data-toggle="modal" data-target="#exampleModal">Login</button>
-            </form>
-
+        <nav class="navbar navbar-dark bg-nav d-flex justify-content-center">
+            <img src='img/logo.png' style='height: 250px' class='logo'>
         </nav>
 
         <div class='container'>
-            <!-- Header for Equipment Piece -->
-           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-                <h4> Menu </h4>
-                <button class='btn btn-info'>Filter</button>                      
-           </div>
-
-            <!-- Collapsable modules like Pros/Cons/Caveats -->
-
-            <div class='my-3 p-3 bg-white rounded shadow-sm'>
-                <a data-toggle='collapse' href='#collapsePros' role='button' aria-expanded="false" aria-controls='collapsePros'>
-                    <h5 class='border-bottom border-gray pb-2'>Orange Chicken - $7.89</h5>
-                </a>
-
-                <div class='mt-2 collapse show' id='collapsePros'>
-                    <div class='row'>
-                        <div class='col-8'>
-                            <p>
-                                Our signature dish. Crispy chicken wok-tossed in a sweet and spicy orange sauce.
-                            </p>
-                        </div>
-                        <div class='col-4'>
-                            <img src='orange-chicken.jpeg' style="height: 200px" class="rounded">
-                        </div> 
-                    </div>
-                </div>
-            </div>
-
-            <div class='my-3 p-3 bg-white rounded shadow-sm'>
-                    <a data-toggle='collapse' href='#collapsePros2' role='button' aria-expanded="false" aria-controls='collapsePros2'>
-                        <h5 class='border-bottom border-gray pb-2'>Kung Pao - $6.89</h5>
-                    </a>
-    
-                    <div class='mt-2 collapse show' id='collapsePros2'>
-                        <div class='row'>
-                            <div class='col-8'>
-                                <p>
-                                    A Szechwan-inspired dish with chicken, peanuts and vegetables, finished with chili peppers.
-                                </p>
-                            </div>
-                            <div class='col-4'>
-                                <img src='kung-pao.jpg' style="height: 200px" class="rounded">
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-
+			<div class='row mt-3'>
+				<div class='col text-center'>
+					<h2 class='mb-3'>Welcome to Lucky Dragon!</h2>
+                	<button class='btn btn-success btn-lg' type='button' data-toggle="modal" data-target="#exampleModal">Login as Manager/Owner</button>
+					<a href='menu.php'>
+						<button class='btn btn-primary btn-lg'>Order as Customer</button>
+					</a>
+				</div>
+       		</div>
         </div>
         <!-- End Container -->
         
