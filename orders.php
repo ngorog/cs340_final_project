@@ -3,7 +3,7 @@
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
 	if(!$conn){
-		die("Unable to connect to database " . mysql_error());
+		die("Unable to connect to database! " . mysql_error());
 	}
 ?>
 
@@ -49,7 +49,7 @@
 						LEFT JOIN Customers C ON O.CustomerId = C.CustomerId
 						LEFT JOIN OrderList OL ON O.OrderId = OL.OrderId
 						LEFT JOIN Product P ON OL.ProductId = P.ProductId
-						GROUP BY O.OrderID
+						GROUP BY O.OrderID 
 						ORDER BY O.OrderID ASC";
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
