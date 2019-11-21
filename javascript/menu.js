@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	//Edit Personal Info
-	$(".editMenu").click(function() {
+	//$(".editMenu").click(function() {
+	$(this).on('click', '.editMenu', function() {
 		console.log('test');
 		editMenu($(this));
 	});
