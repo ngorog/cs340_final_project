@@ -1,7 +1,8 @@
 <?php
 	include 'connectdb.php';	
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	
+	session_start();
+		
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
@@ -31,8 +32,6 @@
            </div>
 
 			<!-- Menu Items -->
-
-			<!-- SQL Query -->
 			<?php
 				$sql = "SELECT *
 						FROM Product";
@@ -40,19 +39,21 @@
 				while($row = $sql_get->fetch_assoc()){
 				?>
 				
-				<div class='my-3 p-3 bg-white rounded shadow-sm'>
+				<div id='menuItem<?= $row['ProductId'] ?>' class='my-3 p-3 bg-white rounded shadow-sm'>
 					<div class='d-flex justify-content-between border-bottom border-gray pb-2'>
-						<a data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
-							<h5 id="name<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] ?></h5>
-							<h5 id="divider" class='d-inline'>   - $</h5>
-							<h5 id="price<?= $row['ProductId'] ?>" class='d-inline'><?= $row['Price']; ?></h5>
+						<a id='collapser<?= $row['ProductId'] ?>' data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
+							<h5 id="namePrice<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] . " - $" . $row['Price']; ?></h5>
 						</a>
 						<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
+						<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
+							<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
+							<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
+						</span>
 					</div>
 					<div class='mt-2 collapse show' id='collapse<?= $row['ProductId']?>'>
 						<div class='row'>
 							<div class='col-8'>
-								<p>
+								<p id='description<?= $row['ProductId']?>'>
 									<?= $row['Description']; ?>
 								</p>
 							</div>

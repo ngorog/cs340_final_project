@@ -13,8 +13,9 @@
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$pw = mysqli_real_escape_string($conn, $_POST['pw']);
 		
-		$query = "SELECT AccountId FROM Account
-				  WHERE Username = '".$username."' AND Password = '".$pw."'";
+		$query = "SELECT AccountId 
+					FROM Account
+					WHERE Username = '".$username."' AND Password = '".$pw."'";
 		
 		$result = mysqli_query($conn, $query);
 		if (!$result) {

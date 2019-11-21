@@ -1,9 +1,9 @@
 $(document).ready(function(){
 	//Edit Personal Info
 	$(".editMenu").click(function() {
+		console.log('test');
 		editMenu($(this));
 	});
-//	$("#cancelPInfo").on("click", cancelPEdits);
 });
 
 
@@ -11,8 +11,9 @@ function editMenu(obj){
 	var pid = $(obj).attr('value');
 	$(".editMenu[value="+pid+"]").addClass("d-none");
 	$("#saveCancel"+pid).removeClass("d-none");
+
 	$.getJSON("javascript/AJAX/getMenuItemInfo.php", {ProductId: pid}, function(data){
-		$("#collapser").attr('href', 'none'); //Disabled collapse
+		$("#collapser"+pid).attr('href', 'none'); //Disabled collapse
 		$("#menuItem"+pid).replaceWith($('<form id='+pid+' class="my-3 p-3 bg-white rounded shadow-sm">' + $("#menuItem"+pid)[0].innerHTML + '</form>')); //Change to form for submit
 		$("#namePrice"+pid).html(
 			"<div class='row'>"+
@@ -25,9 +26,12 @@ function editMenu(obj){
 			"</div>");
 		$("#description"+pid).html("<textarea class='form-control' minlength='10' maxlength='500' id='editDescription'>"+data.Description+"</textarea>");
 		//Add event listener to new form for submittal
-		$("form").submit(function(e){
+		$("#"+pid).submit(function(e){
 			e.preventDefault();
 			confirmMenu($(this));		
+		});
+		$(".editCancel").on("click", function() {
+			cancelMenu({id:pid});
 		});
 	});
 }
@@ -52,13 +56,17 @@ function confirmMenu(obj){
 }
 
 function cancelMenu(obj){
+	var id = obj.id
 	//Show Edit Hide Save/Cancel
-	$("#saveCancel"+obj.id).addClass("d-none");
-	$(".editMenu[value="+obj.id+"]").removeClass("d-none");
+	$("#saveCancel"+id).addClass("d-none");
+	$(".editMenu[value="+id+"]").removeClass("d-none");
 
-	//Add back new values
-	$("#"+obj.id).replaceWith($('<div id=menuItem'+obj.id+' class="my-3 p-3 bg-white rounded shadow-sm">' + $("#"+obj.id)[0].innerHTML + '</div>')); //Change to form for submit
-	$("#namePrice"+obj.id).html(obj.name + ' - $' + obj.price);
-	$("#description"+obj.id).html(obj.desc);
-	$("#collapser").attr('href', '#collapse'+obj.id);
+
+	$.getJSON("javascript/AJAX/getMenuItemInfo.php", {ProductId: obj.id}, function(data){	
+		//Add back new values
+		$("#"+id).replaceWith($('<div id=menuItem'+id+' class="my-3 p-3 bg-white rounded shadow-sm">' + $("#"+id)[0].innerHTML + '</div>')); //Change to form for submit
+		$("#namePrice"+id).html(data.ProductName + ' - $' + data.Price);
+		$("#description"+id).html(data.Description);
+		$("#collapser").attr('href', '#collapse'+id);
+	});
 }
