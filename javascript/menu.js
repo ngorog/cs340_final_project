@@ -25,13 +25,11 @@ function editMenu(obj){
 			"</div>");
 		$("#description"+pid).html("<textarea class='form-control' minlength='10' maxlength='500' id='editDescription'>"+data.Description+"</textarea>");
 		//Add event listener to new form for submittal
-		$("form").on("submit", function(){
+		$("form").submit(function(e){
+			e.preventDefault();
 			confirmMenu($(this));		
 		});
 	});
-}
-
-function validatePrice(price){
 }
 
 function confirmMenu(obj){
@@ -48,11 +46,19 @@ function confirmMenu(obj){
 	};
 	
 	$.post("javascript/AJAX/editMenuItem.php", ItemInfo, function(data){
-		console.log(ItemInfo);
-		console.log('Tried?' + data);
+		cancelMenu(ItemInfo);
 	});
+
 }
 
-function cancelMenu(){
+function cancelMenu(obj){
+	//Show Edit Hide Save/Cancel
+	$("#saveCancel"+obj.id).addClass("d-none");
+	$(".editMenu[value="+obj.id+"]").removeClass("d-none");
 
+	//Add back new values
+	$("#"+obj.id).replaceWith($('<div id=menuItem'+obj.id+' class="my-3 p-3 bg-white rounded shadow-sm">' + $("#"+obj.id)[0].innerHTML + '</div>')); //Change to form for submit
+	$("#namePrice"+obj.id).html(obj.name + ' - $' + obj.price);
+	$("#description"+obj.id).html(obj.desc);
+	$("#collapser").attr('href', '#collapse'+obj.id);
 }
