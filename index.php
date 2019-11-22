@@ -86,9 +86,11 @@
 		                	<button class='btn btn-success btn-lg' type='button'>Continue as Manager/Owner</button>
 						</a>
 					<?php endif ;?>
+					<?php if(!$_SESSION['AccountId']): ?>
 					<a href='menu.php'>
 						<button class='btn btn-primary btn-lg'>Order as Customer</button>
 					</a>
+					<?php endif; ?>
 				</div>
        		</div>
         </div>

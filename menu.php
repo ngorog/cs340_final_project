@@ -6,6 +6,12 @@
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
+	
+	if (isset($_SESSION['AccountId'])) {
+		$ID = $_SESSION['AccountId'];
+	}
+
+	$today = date("Y-m-d");
 ?>
 
 <!DOCTYPE html>
@@ -44,11 +50,14 @@
 						<a id='collapser<?= $row['ProductId'] ?>' data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
 							<h5 id="namePrice<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] . " - $" . $row['Price']; ?></h5>
 						</a>
+						<!-- If Employee Logged in, allow edit -->
+						<?php if($ID) :?> 
 						<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
 						<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
 							<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
 							<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
 						</span>
+						<?php endif; ?>
 					</div>
 					<div class='mt-2 collapse show' id='collapse<?= $row['ProductId']?>'>
 						<div class='row'>

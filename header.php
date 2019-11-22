@@ -1,3 +1,9 @@
+<?php
+	session_start();
+	if (isset($_SESSION['AccountId'])) {
+		$ID = $_SESSION['AccountId'];
+	}
+?>
 <nav class="navbar navbar-dark bg-nav d-flex flex-column">
 	<img src='img/logo.png' style='height: 250px' class='logo mx-auto'>
 	<div>
@@ -7,6 +13,7 @@
 		<a href='menu.php'>
 			<button class='btn btn-dark'>View Menu</button>
 		</a>
+		<?php if($ID): ?>
 		<a href='customers.php'>
 			<button class='btn btn-dark'>View Customers</button>
 		</a>
@@ -16,6 +23,9 @@
 		<a href='orders.php'>
 			<button class='btn btn-dark'>View Orders</button>
 		</a>
-
+		<a href='logout.php'>
+			<button class='btn btn-dark'>Log Out</button>
+		</a>
+		<?php endif; ?>
 	</div>
 </nav>
