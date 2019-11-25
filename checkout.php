@@ -1,9 +1,7 @@
 <?php
 	session_start();
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(-1);
 	include 'connectdb.php';	
+	include 'cart.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		
 	if(!$conn){
@@ -41,10 +39,14 @@
 		<div class='container-fluid'>
 			<div class='row'>
 				<!-- CART INFORMATION -->
+				<?php if(isset($_SESSION['menu_item'])) :?>
 				<div class='col-6'>
+				<?php else: ?>
+				<div class='col-12'>
+				<?php endif; ?>
 	            	<!-- Header --> 
-					<div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-        		        <h4> Cart </h4>
+					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
+        		        <h4 class='text-center'> Cart </h4>
 					</div>
 				
 					<!-- Cart Modal -->
@@ -69,7 +71,7 @@
 										<td><?php echo $item["quantity"]; ?></td>
 										<td><?php echo "$ ".$item["Price"]; ?></td>
 										<td>
-											<a href='menu.php?action=remove&code=<?= $item['ProductId'] ?>'>
+											<a href='checkout.php?action=remove&code=<?= $item['ProductId'] ?>'>
 												<button class='btn btn-danger fas fa-trash text-center' type='submit' value='<?= $item['ProductId'] ?>'></button>
 											</a>
 										</td>
@@ -85,18 +87,22 @@
 								<td class='font-weight-bold'><?= $total_quantity?></td>
 								<td class='font-weight-bold'><?= "$".$total_price ?></td>
 								<td>
-									<a class='text-center' type='submit' href='menu.php?action=empty'>
-									<button class='btn btn-danger text-center' type='submit' href='menu.php?action=empty'>Clear Cart</button>
+									<a class='text-center' type='submit' href='checkout.php?action=empty'>
+									<button class='btn btn-danger text-center' type='submit' href='checkout.php?action=empty'>Clear Cart</button>
 								</td>
 							</tr>
 						</tbody>
+
+						<?php else: ?>
+							<h3 class='text-center'>You have no items in your cart</h3>
 						<?php endif; ?>
 					</table>
 				</div>
+				<?php if(isset($_SESSION['menu_item'])) :?>
 				<!-- ORDER INFORMATION -->
 				<div class='col-6'>
-					<div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-        		        <h4> Checkout Information </h4>
+					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
+        		        <h4 class='text-center'> Checkout Information </h4>
 					</div>
 
 					<form>
@@ -133,6 +139,7 @@
 						</div>
 					</form>
 				</div>
+				<?php endif; ?>
 			</div>
 		</div>
         <!-- End Container --> 
