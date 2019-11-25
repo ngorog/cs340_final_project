@@ -12,9 +12,15 @@
 		<a href='menu.php'>
 			<button class='btn btn-dark'>View Menu</button>
 		</a>
+		
+		<?php if(!isset($ID)): ?>
 		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
 			 View Cart 
 		</button>
+		<a href='checkout.php'>
+			<button class='btn btn-dark'>Checkout</button>
+		</a>
+		<?php endif; ?>
 		<?php if(isset($ID)): ?>
 		<a href='customers.php'>
 			<button class='btn btn-dark'>View Customers</button>
