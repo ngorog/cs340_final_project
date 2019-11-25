@@ -1,7 +1,11 @@
 <?php
-	include 'connectdb.php';	
-	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	session_start();
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(-1);
+	include 'connectdb.php';	
+	include 'cart.php';	
+	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
@@ -9,6 +13,12 @@
 	
 	if (isset($_SESSION['AccountId'])) {
 		$ID = $_SESSION['AccountId'];
+	}
+
+
+	if(isset($_SESSION["menu_item"])){
+		$total_quantity = 0;
+		$total_price = 0;
 	}
 
 	$today = date("Y-m-d");
@@ -34,29 +44,37 @@
             <!-- Header --> 
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Menu </h4>
-                <button class='btn btn-success'>Filter</button>                      
+                <button class='btn btn-info'>Filter</button>                      
            </div>
 
-			<!-- Menu Items -->
+			<!-- Populate Menu Items -->
 			<?php
 				$sql = "SELECT *
 						FROM Product";
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
-				
+				<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 				<div id='menuItem<?= $row['ProductId'] ?>' class='my-3 p-3 bg-white rounded shadow-sm'>
 					<div class='d-flex justify-content-between border-bottom border-gray pb-2'>
 						<a id='collapser<?= $row['ProductId'] ?>' data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
 							<h5 id="namePrice<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] . " - $" . $row['Price']; ?></h5>
 						</a>
 						<!-- If Employee Logged in, allow edit -->
-						<?php if($ID) :?> 
-						<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
-						<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
-							<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
-							<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
-						</span>
+						<?php if(isset($ID)) :?> 
+							<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
+							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
+								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
+								<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
+							</span>
+						<?php endif; ?>
+
+						<!-- If Not Logged in, allow add to cart -->
+						<?php if(!isset($ID)) :?>
+							<div class="cart-action d-flex">
+								<input class='form-control' id='editPrice' type='number' name='quantity' min='1' max='20' step='1' value='1' />
+								<button class='btn btn-success fas fa-shopping-cart ml-2' type='submit' value='<?= $row['ProductId'] ?>'></button>
+							</div>
 						<?php endif; ?>
 					</div>
 					<div class='mt-2 collapse show' id='collapse<?= $row['ProductId']?>'>
@@ -72,11 +90,81 @@
 						</div>
 					</div>
 				</div>
+				</form>
 				<?php
 				}
 				$sql_get->close();
 			?>
-        </div>
+			  
+			<!-- Cart Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Your Cart</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<!--CART STUFF -->
+							<table class='table'>
+							<?php if(isset($_SESSION['menu_item'])) :?>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Quantity</th>
+										<th>Price</th>
+										<th>Remove</th>
+									</tr>
+								</thead>
+								<tbody>
+							<?php
+								if(isset($_SESSION["menu_item"])){
+									foreach ($_SESSION["menu_item"] as $item){
+										$item_price = $item["quantity"]*$item["Price"];
+									?>
+										<tr>
+											<td><?php echo $item["Name"]; ?></td>
+											<td><?php echo $item["quantity"]; ?></td>
+											<td><?php echo "$ ".$item["Price"]; ?></td>
+											<td>
+												<a href='menu.php?action=remove&code=<?= $item['ProductId'] ?>'>
+													<button class='btn btn-danger fas fa-trash text-center' type='submit' value='<?= $item['ProductId'] ?>'></button>
+												</a>
+											</td>
+										</tr>
+									<?php
+										$total_quantity += $item["quantity"];
+										$total_price += ($item["Price"]*$item["quantity"]);
+									}
+								}
+							?>
+								<tr class='table-success'>
+									<td class='font-weight-bold'>Total</td>
+									<td class='font-weight-bold'><?= $total_quantity?></td>
+									<td class='font-weight-bold'><?= "$".$total_price ?></td>
+									<td>
+										<a class='text-center' type='submit' href='menu.php?action=empty'>
+										<button class='btn btn-danger text-center' type='submit' href='menu.php?action=empty'>Clear Cart</button>
+									</td>
+								</tr>
+								</tbody>
+							<?php else: ?>
+								<h3 class='text-center'>You have no items in your cart</h3>
+							<?php endif; ?>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<?php if(isset($_SESSION['menu_item'])) :?>
+							<button type="button" class="btn btn-success">Checkout</button>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
         <!-- End Container --> 
     </body>
 </html>

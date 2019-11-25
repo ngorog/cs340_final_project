@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	if (isset($_SESSION['AccountId'])) {
 		$ID = $_SESSION['AccountId'];
 	}
@@ -13,7 +12,10 @@
 		<a href='menu.php'>
 			<button class='btn btn-dark'>View Menu</button>
 		</a>
-		<?php if($ID): ?>
+		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+			 View Cart 
+		</button>
+		<?php if(isset($ID)): ?>
 		<a href='customers.php'>
 			<button class='btn btn-dark'>View Customers</button>
 		</a>
