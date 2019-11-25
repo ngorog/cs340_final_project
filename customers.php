@@ -2,6 +2,7 @@
 	include 'connectdb.php';	
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
+	session_start();	
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
@@ -28,7 +29,6 @@
             <!-- Header --> 
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Lucky Dragon Customer Information </h4>
-                <button class='btn btn-info'>Filter</button>                      
            </div>
 
 			<!-- Menu Items -->

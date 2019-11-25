@@ -1,7 +1,11 @@
 <?php
 	include 'connectdb.php';	
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+<<<<<<< HEAD
 	session_start();
+=======
+	session_start();	
+>>>>>>> e895c7f7734a553fc1c3517f30e82a823d083a45
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
@@ -29,7 +33,6 @@
             <!-- Header --> 
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Lucky Dragon Employee Information </h4>
-                <button class='btn btn-info'>Filter</button>                      
            </div>
 
 			<!-- Menu Items -->

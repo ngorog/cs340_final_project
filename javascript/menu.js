@@ -68,6 +68,6 @@ function cancelMenu(obj){
 		$("#"+id).replaceWith($('<div id=menuItem'+id+' class="my-3 p-3 bg-white rounded shadow-sm">' + $("#"+id)[0].innerHTML + '</div>')); //Change to form for submit
 		$("#namePrice"+id).html(data.ProductName + ' - $' + data.Price);
 		$("#description"+id).html(data.Description);
-		$("#collapser").attr('href', '#collapse'+id);
+		$("#collapser"+id).attr('href', '#collapse'+id);
 	});
 }
