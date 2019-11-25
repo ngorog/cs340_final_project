@@ -9,11 +9,9 @@ switch($_GET['action']){
 			$row = $sql->fetch_assoc();
 			$itemArray= array($row['ProductId']=>
 							array('Name'=>$row['ProductName'],
-							'Name'=>$row['ProductName'],
 							'Price'=>$row['Price'],
 							'ProductId'=>$row['ProductId'],
 							'quantity'=>$_POST['quantity']));
-			echo var_dump($itemArray);
 			if(!empty($_SESSION["menu_item"])) {
 					if(in_array($row["ProductId"],array_keys($_SESSION["menu_item"]))) {
 							foreach($_SESSION["menu_item"] as $k => $v) {
@@ -34,10 +32,8 @@ switch($_GET['action']){
 	break;
 	case "remove":
 		if(!empty($_SESSION["menu_item"])) {
-//			echo var_dump($_SESSION['menu_item']);
 			foreach($_SESSION["menu_item"] as $k => $v) {
-				echo var_dump($_SESSION['menu_item']);
-				if($_GET["code"] == $k){
+				if($_GET["code"] == $_SESSION['menu_item'][$k]['ProductId']){
 					unset($_SESSION["menu_item"][$k]);
 				}
 				if(empty($_SESSION["menu_item"]))
@@ -51,3 +47,5 @@ switch($_GET['action']){
 	
 }
 }
+
+?>
