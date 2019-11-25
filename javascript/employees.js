@@ -10,16 +10,19 @@ $(document).ready(function(){
 function editEmployees(obj){
 	var eid = $(obj).attr('value');
 	
-	var emp = $.getJSON("javascript/AJAX/getEmployeeInfo.php");
-	var empcat = $.getJSON("javascript/AJAX/getEmployeeCat.php");
-	
 	$(".editEmployee[value="+eid+"]").addClass("d-none");
 	$("#saveCancel"+eid).removeClass("d-none");
-/*
 	$.getJSON("javascript/AJAX/getEmployeeInfo.php", {EmployeeId: eid}, function(data){
 		$("#FirstName"+eid).html("<input id='editFName' type='text' class='form-control' minlength='2' maxlength='45' value='"+data.FirstName+"'>");
 		$("#LastName"+eid).html("<input id='editLName' type='text' class='form-control' minlength='2' maxlength='45' value='"+data.LastName+"'>");
-
+		$.getJSON("javascript/AJAX/getEmployeeCat.php", function(data){
+			var select = "<select class='form-control'>";
+			$(data).each(function(index) {
+				select += "<option value="+data[index]['EmpCategoryId']+">"+data[index]['EmpCategory']+"</option>";
+			});
+			select += "</select>";
+			$("#EmpCat"+eid).html(select);
+		});
 		$("#Wage"+eid).html("<input id='editWage' type='number' min='0.00' max='1000.00' step='0.01' class='form-control'  value='"+data.Wage+"'>");
 	
 		//Add event listener to new form for submittal
@@ -31,17 +34,7 @@ function editEmployees(obj){
 			cancelEmployees({id:eid});
 		});
 	});		
-*/	
-	$.getJSON("javascript/AJAX/getEmployeeCat.php", function(data){
-		console.log(data);
-		var select = "<select class='form-control'>";
-		$(data).each(function(index) {
-			select += "<option>"+data[index]+"</option>";
-		});
-		select += "</select>";
-		console.log(select);
-		$("#EmpCat"+eid).html(select);
-	});
+	
 }
 
 function confirmEmployees(obj) {

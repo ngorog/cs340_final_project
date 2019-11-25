@@ -1,7 +1,6 @@
 <?php
 	include 'connectdb.php';	
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	session_start();
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
