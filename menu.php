@@ -20,7 +20,8 @@
 		$total_quantity = 0;
 		$total_price = 0;
 	}
-
+	
+	$_SESSION['page'] = 1;
 	$today = date("Y-m-d");
 ?>
 
@@ -158,7 +159,9 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 							<?php if(isset($_SESSION['menu_item'])) :?>
-							<button type="button" class="btn btn-success">Checkout</button>
+							<a href='checkout.php'>
+								<button type="button" class="btn btn-success">Checkout</button>
+							</a>
 							<?php endif; ?>
 						</div>
 					</div>

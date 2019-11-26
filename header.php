@@ -13,7 +13,7 @@
 			<button class='btn btn-dark'>View Menu</button>
 		</a>
 		
-		<?php if(!isset($ID)): ?>
+		<?php if(!isset($ID) && $_SESSION['page'] != 3): ?>
 		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
 			 View Cart 
 		</button>

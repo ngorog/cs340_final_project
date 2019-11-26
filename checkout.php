@@ -16,6 +16,8 @@
 		$total_quantity = 0;
 		$total_price = 0;
 	}
+	
+	$_SESSION['page'] = 3;
 
 	$today = date("Y-m-d");
 ?>
@@ -41,14 +43,16 @@
 				<!-- CART INFORMATION -->
 				<?php if(isset($_SESSION['menu_item'])) :?>
 				<div class='col-6'>
+					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
+        		        <h4> Cart </h4>
+					</div>
+				
 				<?php else: ?>
 				<div class='col-12'>
-				<?php endif; ?>
-	            	<!-- Header --> 
 					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
         		        <h4 class='text-center'> Cart </h4>
 					</div>
-				
+				<?php endif; ?>
 					<!-- Cart Modal -->
 					<table class='table'>
 					<?php if(isset($_SESSION['menu_item'])) :?>
@@ -102,7 +106,7 @@
 				<!-- ORDER INFORMATION -->
 				<div class='col-6'>
 					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
-        		        <h4 class='text-center'> Checkout Information </h4>
+        		        <h4> Checkout Information </h4>
 					</div>
 
 					<form>
