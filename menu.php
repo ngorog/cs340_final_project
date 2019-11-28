@@ -3,14 +3,14 @@
 //	ini_set('display_errors', 1);
 //	ini_set('display_startup_errors', 1);
 //	error_reporting(-1);
-	include 'connectdb.php';	
-	include 'cart.php';	
+	include 'connectdb.php';
+	include 'cart.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		
+
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
-	
+
 	if (isset($_SESSION['AccountId'])) {
 		$ID = $_SESSION['AccountId'];
 	}
@@ -20,7 +20,7 @@
 		$total_quantity = 0;
 		$total_price = 0;
 	}
-	
+
 	$_SESSION['page'] = 1;
 	$today = date("Y-m-d");
 ?>
@@ -33,25 +33,43 @@
 		<script type='text/javascript' src="jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
 		<script src="javascript/menu.js"></script>
     </head>
 
 
     <body class='bg-light'>
-		<?php include 'header.php' ?>
+		<?php include 'header.php'?>
+
         <div class='container'>
-            <!-- Header --> 
+            <!-- Header -->
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Menu </h4>
-                <button class='btn btn-info'>Filter</button>                      
+								<div class="dropdown">
+  								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    								Filter
+  								</button>
+  								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+										<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
+    									<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
+    									<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
+										</form>
+  								</div>
+								</div>
            </div>
-
+					 
 			<!-- Populate Menu Items -->
 			<?php
-				$sql = "SELECT *
-						FROM Product";
+				if(isset($_POST['foods_btn'])){
+					$sql = "SELECT * FROM Foods";
+				}
+				elseif (isset($_POST['drinks_btn'])){
+					$sql = "SELECT * FROM Drinks";
+				}
+				else {
+					$sql = "SELECT * FROM Product";
+				}
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
@@ -61,10 +79,11 @@
 						<a id='collapser<?= $row['ProductId'] ?>' data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
 							<h5 id="namePrice<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] . " - $" . $row['Price']; ?></h5>
 						</a>
+
 						<!-- If Employee Logged in, allow edit -->
-						<?php if(isset($ID)) :?> 
+						<?php if(isset($ID)) :?>
 							<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
-							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
+							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>
 								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
 								<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
 							</span>
@@ -87,7 +106,7 @@
 							</div>
 							<div class='col-4'>
 								<img src="img/<?= $row['ProductId'].'.jpg'?>" style="max-width: 250px" class="rounded">
-							</div> 
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,7 +115,7 @@
 				}
 				$sql_get->close();
 			?>
-			  
+
 			<!-- Cart Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
@@ -166,8 +185,8 @@
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
-        <!-- End Container --> 
+        <!-- End Container -->
     </body>
 </html>
