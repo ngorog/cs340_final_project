@@ -1,8 +1,5 @@
 <?php
 	session_start();
-//	ini_set('display_errors', 1);
-//	ini_set('display_startup_errors', 1);
-//	error_reporting(-1);
 	include 'connectdb.php';
 	include 'cart.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -46,18 +43,18 @@
             <!-- Header -->
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Menu </h4>
-								<div class="dropdown">
-  								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    								Filter
-  								</button>
-  								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-										<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
-    									<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
-    									<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
-										</form>
-  								</div>
-								</div>
-           </div>
+				<div class="dropdown">
+					<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Filter
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+						<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
+							<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
+							<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
+						</form>
+					</div>
+				</div>
+			</div>
 					 
 			<!-- Populate Menu Items -->
 			<?php

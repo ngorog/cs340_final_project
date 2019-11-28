@@ -24,10 +24,10 @@
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$_SESSION['AccountId'] = $row['AccountId'];
-			header("Location: ./index.php");
+			header("Location: menu.php");
 		}
 		else {
-			alert("Invalid combinations" . $username . $pw);
+			alert("Invalid combinations " . $username . $pw);
 		}
 	}
 ?> 

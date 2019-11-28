@@ -6,6 +6,9 @@
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
+	if(isset($_SESSION['AccountId'])){
+		$ID = $_SESSION['AccountId'];
+	}
 ?>
 
 <!DOCTYPE html>
