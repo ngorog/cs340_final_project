@@ -27,7 +27,8 @@ function editMenu(obj){
 			"</div>");
 		$("#description"+pid).html("<textarea class='form-control' minlength='10' maxlength='500' id='editDescription'>"+data.Description+"</textarea>");
 		//Add event listener to new form for submittal
-		$("#"+pid).submit(function(e){
+		console.log($("#"+pid));
+    $("#"+pid).submit(function(e){
 			e.preventDefault();
 			confirmMenu($(this));		
 		});

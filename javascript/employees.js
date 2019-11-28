@@ -24,13 +24,18 @@ function editEmployees(obj){
 			$("#EmpCat"+eid).html(select);
 		});
 		$("#Wage"+eid).html("<input id='editWage' type='number' min='0.00' max='1000.00' step='0.01' class='form-control'  value='"+data.Wage+"'>");
-	
+		console.log("test");
+		$(".editEmployees[value="+eid+"]").addClass("d-none");	
 		//Add event listener to new form for submittal
-		$("#"+eid).submit(function(e){
-			e.preventDefault();
+		console.log($(".editSave"+eid));
+		$("#"+eid).submit(function(d){
+			
+			console.log("in submit");
+			d.preventDefault();
+			console.log("in submit");
 			confirmEmployees($(this));		
 		});
-		$(".editCancel").on("click", function() {
+		$(".editCancel"+eid).on('click', function() {
 			cancelEmployees({id:eid});
 		});
 	});		
@@ -38,7 +43,7 @@ function editEmployees(obj){
 }
 
 function confirmEmployees(obj) {
-	
+	console.log("confirm");	
 	var eid = obj.attr('id');
 	var newFname = obj.find("#editFName").val();
 	var newLname = obj.find("#editLName").val();
@@ -52,7 +57,7 @@ function confirmEmployees(obj) {
 		'ecid': newEcid,
 		'wage': newWage
 	};
-
+	console.log("sure");
 	$.post("javascript/AJAX/editEmployee.php", EmployeeInfo, function(data) {
 		cancelEmployee(EmployeeInfo);
 	});
@@ -60,10 +65,9 @@ function confirmEmployees(obj) {
 
 function cancelEmployees(obj) {
 	var id = obj.id
-
 	$("#saveCancel"+id).addClass("d-none");
 	$(".editEmployees[value="+id+"]").removeClass("d-none");
-
+	console.log("CANCEL");
 	$.getJSON("javascript/AJAX/getEmployeeInfo.php", {EmployeeId: obj.id}, function(data) {
 		$("#FirstName"+id).html(data.FirstName);
 		$("#LastName"+id).html(data.LastName);
