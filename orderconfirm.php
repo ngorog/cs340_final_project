@@ -83,6 +83,8 @@
 									$total_price += ($item["Price"]*$item["quantity"]);
 								}
 								unset($_SESSION['menu_item']);
+								$_SESSION = array();
+								session_destroy();
 							}
 							?>
 							<tr class='table-success'>

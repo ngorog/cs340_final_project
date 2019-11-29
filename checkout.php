@@ -7,7 +7,6 @@
 	include 'cart.php';
 	include 'placeorder.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}

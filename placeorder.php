@@ -34,11 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$row = $sql_get->fetch_assoc();
 	$sql_get->close(); 
 
-	if ($row['Rows'] == 0) { //Insert new customer and grab id
-		$sql_update = "INSERT INTO `Customers` (FirstName, LastName, PhoneNumber, Address, Zipcode, City, State)
-				VALUES ('$firstname', '$lastname', '$phone', '$address', $zipcode, '$city', '$state')";
-		$conn->query($sql_update);	
-			
+	if ($row['Rows'] == 0) { //Insert new customer and grab id	
 		$sql = "SELECT AUTO_INCREMENT
 			FROM information_schema.TABLES
 			WHERE TABLE_SCHEMA = 'cs340_dongrog' AND
@@ -46,7 +42,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$result = $conn->query($sql);
 		$sql_res = $result->fetch_assoc();
 		$id = $sql_res['AUTO_INCREMENT'];
-	}
+		$result->close();
+
+		$sql_update = "INSERT INTO `Customers` (FirstName, LastName, PhoneNumber, Address, Zipcode, City, State)
+				VALUES ('$firstname', '$lastname', '$phone', '$address', $zipcode, '$city', '$state')";
+		$conn->query($sql_update);	
+			
+		}
 	else { //Grab customer id
 		$id = $row['CustomerId'];
 	}
