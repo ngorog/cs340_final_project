@@ -43,6 +43,7 @@
 						<th>First Name</th>
 						<th>Last Name</th>
 						<th>Address</th>
+						<th>Phone Number</th>
 					</tr>
 			<?php
 				$sql = "SELECT *
@@ -54,6 +55,7 @@
 						<td><?= $row['FirstName']?></td>
 						<td><?= $row['LastName']?></td>
 						<td><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['Zipcode'] ?></td>
+						<td><?= $row['PhoneNumber']?></td>
 					</tr>
 
 				<?php
