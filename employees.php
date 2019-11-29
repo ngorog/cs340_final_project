@@ -78,6 +78,9 @@
 								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['EmployeeId'] ?>'>Cancel</button>
 								<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['EmployeeId']?>'>Save</button>
 							</span>
+							<a href='deleteEmployee.php?id=<?= $row['EmployeeId'] ?>'>
+								<button class='ml-2 btn btn-danger fas fa-trash'></button>
+							</a>
 						</td>
 					</tr>
 				<?php
