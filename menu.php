@@ -51,6 +51,7 @@
 						<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 							<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
 							<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
+							<button class="dropdown-item" type="submit" name="reset">Clear Filter</button>
 						</form>
 					</div>
 				</div>

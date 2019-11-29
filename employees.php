@@ -31,10 +31,9 @@
 		<?php include 'header.php' ?>
         <div class='container'>
             <!-- Header --> 
-           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-                <h4> Lucky Dragon Employee Information </h4>
+           <div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
+                <h4 class='text-center'> Lucky Dragon Employee Information </h4>
            </div>
-
 			<!-- Menu Items -->
 			
 			<!-- SQL Query -->

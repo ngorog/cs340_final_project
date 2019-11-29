@@ -30,7 +30,7 @@
         <?php include 'header.php' ?>
 		<div class='container'>
             <!-- Header --> 
-           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
+           <div class='text-center p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Lucky Dragon Customer Information </h4>
            </div>
 
