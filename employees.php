@@ -9,6 +9,10 @@
 	if(isset($_SESSION['AccountId'])){
 		$ID = $_SESSION['AccountId'];
 	}
+	else{
+		header("Location: index.php");
+		exit();
+	}
 ?>
 
 <!DOCTYPE html>
