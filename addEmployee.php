@@ -122,11 +122,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             </div> -->
                             <div>
                             <select>
+
+								<?php
+								$sql = "SELECT * FROM EmployeeCategories";
+								$sql_get = $conn->query($sql);
                                 while($row = $sql_get->fetch_assoc()){
+								?>
                                 <option>
                                   <?= $row['EmpCategory'] ?>
                                 </option>
+								<?php
                                 }
+								?>
                             <select>
                             </div>
                             <div class="form-group <?php echo (!empty($Wage_err)) ? 'has-error' : ''; ?>">
