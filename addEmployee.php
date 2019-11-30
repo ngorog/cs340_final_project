@@ -1,6 +1,8 @@
 <?php
-
-	include 'connectdb.php';
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(-1);
+	include 'connectdb.php';	
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	session_start();
 	if(!$conn){
@@ -27,11 +29,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Validate Last Name
     $LastName = trim($_POST["LastName"]);
-    if(empty($LastName)){
-        $LastName_err = "Please enter the employees last name.";
-    } elseif(!ctype_digit($LastName){
+    if(empty($FirstName)){
+        $LastName_err= "Please enter the employees last name.";
+    } elseif(!filter_var($FirstName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
         $LastName_err = "Please enter a valid last name.";
     }
+
     // Validate Employee Catagory
     $EmpCatagory = trim($_POST["EmpCategory"]);
     if(empty($EmpCatagory)){
