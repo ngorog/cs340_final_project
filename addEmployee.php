@@ -12,10 +12,14 @@
 	if(isset($_SESSION['AccountId'])){
 		$ID = $_SESSION['AccountId'];
 	}
+	else{
+		header("Location: index.php");
+		exit();
+	}
 
 //define variables and initialize wtih empty values
-$FirstName = $LastName = $EmpCategory = $Wage = "";
-$FirstName_err = $LastName_err = $EmpCategory_err = $Wage_err = "";
+$FirstName = $LastName = $EmpCategory = $Wage = $Username = $Password = "";
+$FirstName_err = $LastName_err = $EmpCategory_err = $Wage_err = $Username_err = $Password_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -31,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $LastName = trim($_POST["LastName"]);
     if(empty($FirstName)){
         $LastName_err= "Please enter the employees last name.";
-    } elseif(!filter_var($FirstName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+    } elseif(!filter_var($LastName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
         $LastName_err = "Please enter a valid last name.";
     }
 
@@ -43,13 +47,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($Wage)){
         $Wage_err = "Please enter a numerical number for the wage.";
 	}
+  
+  	//Account Info	
+	$Username= trim($_POST["Username"]);
+    if(empty($Username)){
+        $Username_err= "Please enter the employees username.";
+	}
+	 
+	$Password = trim($_POST["Password"]);
+    if(empty($FirstName)){
+        $Password_err= "Please enter the employees password.";
+	}
+		
+	//Make an account
+	$sql = "SELECT AUTO_INCREMENT 
+			FROM information_schema.TABLES
+			WHERE TABLE_SCHEMA = 'cs340_dongrog' AND
+			TABLE_NAME = 'Employees'";
+	$result = $conn->query($sql);
+	$sql_res = $result->fetch_assoc();
+	$eid = $sql_res['AUTO_INCREMENT'];
+	$result->close();
 
     // Check input errors before inserting in database
-    if(empty($FirstName_err) && empty($LastName_err) && empty($EmpCategory_err) && empty($Wage_err)){
-        // Prepare an insert statement
-		echo 'Good';
+    if(empty($FirstName_err) && empty($LastName_err) && empty($EmpCategory_err) && empty($Wage_err) && empty($Username_err) && empty($Password_err)){
+        // Prepare an insert statement employee
 		$sql = "INSERT INTO `Employees` (FirstName, LastName, EmpCategoryId, Wage) 
 					VALUES ('$FirstName', '$LastName', $EmpCategory, $Wage)";
+		$conn->query($sql);
+		
+		// Prepare an insert statement for account login
+		$sql = "INSERT INTO `Account` (Username, Password, EmployeeId)
+					VALUES ('$Username', '$Password', $eid)";
 		$conn->query($sql);
 		header("Location: employees.php");
 		exit();
@@ -106,11 +135,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 								?>
                             	<select>
                             </div>
+
                             <div class="form-group <?php echo (!empty($Wage_err)) ? 'has-error' : ''; ?> mt-3">
                                 <label>Wage</label>
-                                <input type="text" name="Wage" class="form-control" value="<?php echo $Wage; ?>">
+								<input type='number' name="Wage" min='0.00' max='1000.00' step='0.01' class='form-control'/>
                                 <span class="help-block"><?php echo $Wage_err;?></span>
                             </div>
+
+							<div class="form-group <?php echo (!empty($Username_err)) ? 'has-error' : ''; ?>">
+                                <label>Username</label>
+                                <input type="text" name="Username" class="form-control" value="<?php echo $Username; ?>">
+                                <span class="help-block"><?php echo $Username_err;?></span>
+                            </div>
+
+							<div class="form-group <?php echo (!empty($Password_err)) ? 'has-error' : ''; ?>">
+                                <label>Password</label>
+                                <input type="text" name="Password" class="form-control" value="<?php echo $Password; ?>">
+                                <span class="help-block"><?php echo $Password_err;?></span>
+                            </div>
+
                             <input type="submit" class="btn btn-primary" value="Submit">
                             <a href="index.php" class="btn btn-default">Cancel</a>
                         </form>

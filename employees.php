@@ -39,9 +39,6 @@
                 <h4 class='text-center'> Lucky Dragon Employee Information </h4>
            </div>
 
-					<div class="page-header clearfix">
-							 <a href="addEmployee.php" class="btn btn-success pull-right">Add New Employee</a>
-					 </div>
 					 <!--
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
 							  Add Employee(s)
@@ -176,6 +173,11 @@
 			?>
 			</table>
         </div>
+			<?php if($status['EmpCategory'] == 'Manager' || $status['EmpCategory'] == 'Owner') :?>
+					<div class="d-flex page-header clearfix justify-content-center mb-3">
+							 <a href="addEmployee.php" class="btn btn-success pull-right">Add New Employee</a>
+					 </div>
+			<?php endif; ?>
         <!-- End Container -->
     </body>
 </html>
