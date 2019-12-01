@@ -47,6 +47,7 @@
 					<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Filter
 					</button>
+
 					<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 						<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 							<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
@@ -56,7 +57,33 @@
 					</div>
 				</div>
 			</div>
-					 
+
+			<?php if(isset($ID)) :?>
+			 <form method="post" action="addProduct.php">
+				 <div class="form-group">
+					 <label for="exampleInputEmail1">Product Name</label>
+					 <input type="text" class="form-control" name="prodname" id="productname1" >
+				 </div>
+				 <div class="form-group">
+					 <label for="price1">Price</label>
+					 <input type="number" class="form-control" name="prodprice"id="price1">
+				 </div>
+				 <div class="form-group">
+					 <label for="description1">Description</label>
+					 <input type="text" class="form-control" name="produdesc" id="description1">
+				 </div>
+				 <div class="form-check">
+					<input type="checkbox" class="form-check-input" name="isfood" id="food_chek">
+					<label class="form-check-label" for="Food_chk">Food</label>
+				</div>
+				<div class="form-check">
+				 <input type="checkbox" class="form-check-input" name="isdrink" id="drink_chek">
+				 <label class="form-check-label" for="Drink_chk">Drink</label>
+			 </div>
+				 <button type="submit" name="add_btn" class="btn btn-primary">Add</button>
+			 </form>
+			<?php endif; ?>
+
 			<!-- Populate Menu Items -->
 			<?php
 				if(isset($_POST['foods_btn'])){
@@ -80,12 +107,16 @@
 
 						<!-- If Employee Logged in, allow edit -->
 						<?php if(isset($ID)) :?>
-							<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
+							<div class="d-flex flex-row-reverse bd-highlight">
+								<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button> <p>&nbsp</p>
+								<button class='delMenu btn btn-info btn-sm' type='submit' name='del_btn' value='<?= $row['ProductId'] ?>'>Delete</button>
+							</div>
 							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>
 								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
 								<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
 							</span>
 						<?php endif; ?>
+
 
 						<!-- If Not Logged in, allow add to cart -->
 						<?php if(!isset($ID)) :?>
