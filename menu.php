@@ -44,6 +44,9 @@
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Menu </h4>
 				<div class="dropdown">
+				<?php if(isset($ID)) :?>
+		        	<button class='btn btn-success btn' type='button' data-toggle="modal" data-target="#exampleModal2">Add Menu Item</button>
+				<?php endif; ?>
 					<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Filter
 					</button>
@@ -58,29 +61,6 @@
 				</div>
 			</div>
 
-			<?php if(isset($ID)) :?>
-			 <form method="post" action="addProduct.php">
-				 <div class="form-group">
-					 <label for="exampleInputEmail1">Product Name</label>
-					 <input type="text" class="form-control" name="prodname" id="productname1" >
-				 </div>
-				 <div class="form-group">
-					 <label for="price1">Price</label>
-					 <input type="number" step="0.01" class="form-control" name="prodprice"id="price1">
-				 </div>
-				 <div class="form-group">
-					 <label for="description1">Description</label>
-					 <input type="text" class="form-control" name="produdesc" id="description1">
-				 </div>
-
-				 <div>
-					<input type="radio" name="foodCheck" value="1" checked> Food<br>
-  			 	<input type="radio" name="foodCheck" value="0"> Drink<br>
-				</div>
-
-				 <button type="submit" name="add_btn" class="btn btn-primary">Add</button>
-			 </form>
-			<?php endif; ?>
 
 			<!-- Populate Menu Items -->
 			<?php
@@ -214,6 +194,45 @@
 				</div>
 			</div>
 		</div>
+		 
+        <!-- Add Product Modal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Employee Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+					<form method="post" action="addProduct.php">
+						 <div class="form-group">
+							 <label for="exampleInputEmail1">Product Name</label>
+							 <input type="text" class="form-control" name="prodname" id="productname1" >
+						 </div>
+						 <div class="form-group">
+							 <label for="price1">Price</label>
+							 <input type="number" step="0.01" class="form-control" name="prodprice"id="price1">
+						 </div>
+						 <div class="form-group">
+							 <label for="description1">Description</label>
+							 <input type="text" class="form-control" name="produdesc" id="description1">
+						 </div>
+
+						 <div>
+							<input type="radio" name="foodCheck" value="1" checked> Food<br>
+						<input type="radio" name="foodCheck" value="0"> Drink<br>
+						</div>
+
+						 <button type="submit" name="add_btn" class="btn btn-primary">Add</button>
+					</form>
+                </div>					
+						
+                </div>
+            </div>
+        </div>
+
         <!-- End Container -->
     </body>
 </html>
