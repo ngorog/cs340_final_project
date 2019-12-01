@@ -200,32 +200,34 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Employee Login</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Menu Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 					<form method="post" action="addProduct.php">
-						 <div class="form-group">
+						<div class="form-group">
 							 <label for="exampleInputEmail1">Product Name</label>
 							 <input type="text" class="form-control" name="prodname" id="productname1" >
-						 </div>
-						 <div class="form-group">
+						</div>
+						<div class="form-group">
 							 <label for="price1">Price</label>
 							 <input type="number" step="0.01" class="form-control" name="prodprice"id="price1">
-						 </div>
-						 <div class="form-group">
+						</div>
+						<div class="form-group">
 							 <label for="description1">Description</label>
 							 <input type="text" class="form-control" name="produdesc" id="description1">
-						 </div>
+						</div>
 
-						 <div>
+						<div>
 							<input type="radio" name="foodCheck" value="1" checked> Food<br>
 						<input type="radio" name="foodCheck" value="0"> Drink<br>
 						</div>
-
-						 <button type="submit" name="add_btn" class="btn btn-primary">Add</button>
+						<div class="modal-footer mt-2">
+	                   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							<button type="submit" name="add_btn" class="btn btn-primary">Add Item</button>
+						</div>
 					</form>
                 </div>					
 						
