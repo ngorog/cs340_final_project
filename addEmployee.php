@@ -14,17 +14,17 @@
 	}
 
 //define variables and initialize wtih empty values
-$FirstName = $LastName = $EmpCatagory = $Wage = "";
-$FirstName_err = $LastName_err = $EmpCatagory_err = $Wage_err = "";
+$FirstName = $LastName = $EmpCategory = $Wage = "";
+$FirstName_err = $LastName_err = $EmpCategory_err = $Wage_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate First name
     $FirstName = trim($_POST["FirstName"]);
     if(empty($FirstName)){
-        $sName_err = "Please enter the employees first name.";
+        $FirstName_err= "Please enter the employees first name.";
     } elseif(!filter_var($FirstName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $sName_err = "Please enter a valid first name.";
+        $FirstName_err= "Please enter a valid first name.";
     }
 
     // Validate Last Name
@@ -35,49 +35,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $LastName_err = "Please enter a valid last name.";
     }
 
-    // Validate Employee Catagory
-    $EmpCatagory = trim($_POST["EmpCategory"]);
-    if(empty($EmpCatagory)){
-        $EmpCatagory_err = "Please select an employee catagory.";
-    }
+    // Validate Employee Category
+    $EmpCategory = $_POST["EmpCategory"];
 
 	// Validate Wage
     $Wage = trim($_POST["Wage"]);
     if(empty($Wage)){
         $Wage_err = "Please enter a numerical number for the wage.";
 	}
+
     // Check input errors before inserting in database
-    if(empty($FirstName_err) && empty($LastName_err) && empty($EmpCatagory_err) && empty($Wage_err)){
+    if(empty($FirstName_err) && empty($LastName_err) && empty($EmpCategory_err) && empty($Wage_err)){
         // Prepare an insert statement
-        $sql = "INSERT INTO Employees (FirstName), LastName, EmpCategory, Wage) VALUES (?, ?, ?, ?)";
-
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "isdi", $param_FirstName, $param_LastName, $param_EmpCatagory, $param_Wage);
-
-            // Set parameters
-			$param_FirstName = $FirstName;
-            $param_LastName = $LastName;
-            $param_EmpCatagory = $EmpCatagory;
-            $param_Wage = $Wage;
-
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Records created successfully. Redirect to landing page
-                header("location: employees.php");
-                exit();
-            } else{
-                echo "Duplicate record";
-				$FirstName_err = "Enter a first name.";
-            }
-        }
-
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-
-    // Close connection
-    mysqli_close($link);
+		echo 'Good';
+		$sql = "INSERT INTO `Employees` (FirstName, LastName, EmpCategoryId, Wage) 
+					VALUES ('$FirstName', '$LastName', $EmpCategory, $Wage)";
+		$conn->query($sql);
+		header("Location: employees.php");
+		exit();
+	}
 }
 ?>
 
@@ -96,14 +72,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <!-- <script src="javascript/employees.js"></script> -->
     </head>
     <body>
-        <div class="wrapper">
-            <div class="container-fluid">
+		<?php include 'header.php' ?>
+            <div class="container">
+				<div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
+	                <h4>Add New Employee</h4>
+				</div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="page-header">
-                            <h2>Insert a new employee</h2>
-                        </div>
-                        <p>Please fill this form and submit to add a Employee record to the database.</p>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     						<div class="form-group <?php echo (!empty($FirstName_err)) ? 'has-error' : ''; ?>">
                                 <label>First Name</label>
@@ -115,14 +90,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 <input type="text" name="LastName" class="form-control" value="<?php echo $LastName; ?>">
                                 <span class="help-block"><?php echo $LastName_err;?></span>
                             </div>
-                            <div>
-	                            <select>
+                            <div class='form group <?php echo (!empty($EmpCategory_err)) ? 'has-error' : ''; ?>'>
+							    <label for="empcat">Employee Position</label>
+	                            <select class='form-control' id='empcat' name='EmpCategory'>
 								<?php
 									$sql = "SELECT * FROM EmployeeCategories";
 									$sql_get = $conn->query($sql);
 	                                while($row = $sql_get->fetch_assoc()){
 								?>
-    	    	                		<option>
+    	    	                		<option value='<?= $row['EmpCategoryId'] ?>'>
                 			                  <?= $row['EmpCategory'] ?>
                                 		</option>
 								<?php
@@ -130,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 								?>
                             	<select>
                             </div>
-                            <div class="form-group <?php echo (!empty($Wage_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group <?php echo (!empty($Wage_err)) ? 'has-error' : ''; ?> mt-3">
                                 <label>Wage</label>
                                 <input type="text" name="Wage" class="form-control" value="<?php echo $Wage; ?>">
                                 <span class="help-block"><?php echo $Wage_err;?></span>
@@ -141,6 +117,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                 </div>
             </div>
-        </div>
     </body>
     </html>
