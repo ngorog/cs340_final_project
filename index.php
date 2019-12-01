@@ -6,9 +6,6 @@
 	function alert($msg) {
 		echo "<script type='text/javascript'>alert('$msg');</script>";
 	}	
-	if (isset($_SESSION['AccountId'])) {
-		header("Location: ./index.php");
-	}
 	if (isset($_POST['login'])) {
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$pw = mysqli_real_escape_string($conn, $_POST['pw']);
