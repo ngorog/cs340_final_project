@@ -66,20 +66,18 @@
 				 </div>
 				 <div class="form-group">
 					 <label for="price1">Price</label>
-					 <input type="number" class="form-control" name="prodprice"id="price1">
+					 <input type="number" step="0.01" class="form-control" name="prodprice"id="price1">
 				 </div>
 				 <div class="form-group">
 					 <label for="description1">Description</label>
 					 <input type="text" class="form-control" name="produdesc" id="description1">
 				 </div>
-				 <div class="form-check">
-					<input type="checkbox" class="form-check-input" name="isfood" id="food_chek">
-					<label class="form-check-label" for="Food_chk">Food</label>
+
+				 <div>
+					<input type="radio" name="foodCheck" value="1" checked> Food<br>
+  			 	<input type="radio" name="foodCheck" value="0"> Drink<br>
 				</div>
-				<div class="form-check">
-				 <input type="checkbox" class="form-check-input" name="isdrink" id="drink_chek">
-				 <label class="form-check-label" for="Drink_chk">Drink</label>
-			 </div>
+
 				 <button type="submit" name="add_btn" class="btn btn-primary">Add</button>
 			 </form>
 			<?php endif; ?>
