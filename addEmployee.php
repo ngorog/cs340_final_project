@@ -115,26 +115,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 <input type="text" name="LastName" class="form-control" value="<?php echo $LastName; ?>">
                                 <span class="help-block"><?php echo $LastName_err;?></span>
                             </div>
-                            <!-- <div class="form-group <?php echo (!empty($EmpCatagory_err)) ? 'has-error' : ''; ?>">
-                                <label>Employee Position</label>
-                                <input type="text" name="EmpCatagory" class="form-control" value="<?php echo $EmpCatagory; ?>">
-                                <span class="help-block"><?php echo $EmpCatagory_err;?></span>
-                            </div> -->
                             <div>
-                            <select>
-
+	                            <select>
 								<?php
-								$sql = "SELECT * FROM EmployeeCategories";
-								$sql_get = $conn->query($sql);
-                                while($row = $sql_get->fetch_assoc()){
+									$sql = "SELECT * FROM EmployeeCategories";
+									$sql_get = $conn->query($sql);
+	                                while($row = $sql_get->fetch_assoc()){
 								?>
-                                <option>
-                                  <?= $row['EmpCategory'] ?>
-                                </option>
+    	    	                		<option>
+                			                  <?= $row['EmpCategory'] ?>
+                                		</option>
 								<?php
-                                }
+	                                }
 								?>
-                            <select>
+                            	<select>
                             </div>
                             <div class="form-group <?php echo (!empty($Wage_err)) ? 'has-error' : ''; ?>">
                                 <label>Wage</label>

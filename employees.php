@@ -39,7 +39,7 @@
                 <h4 class='text-center'> Lucky Dragon Employee Information </h4>
            </div>
 
-					 <div class="page-header clearfix">
+					<div class="page-header clearfix">
 							 <a href="addEmployee.php" class="btn btn-success pull-right">Add New Employee</a>
 					 </div>
 					 <!--
@@ -123,6 +123,16 @@
 						<th></th>
 					</tr>
 			<?php
+				$sql = "SELECT EC.EmpCategory
+						FROM Account A
+						JOIN Employees E ON A.EmployeeId = E.EmployeeId
+						JOIN EmployeeCategories EC on E.EmpCategoryId = EC.EmpCategoryId
+						WHERE A.AccountId = $ID";
+				$sql_get = $conn->query($sql);
+				$status = $sql_get->fetch_assoc();
+				$sql_get->close();	
+
+
 				$sql = "SELECT *
 						FROM Employees E
 						LEFT JOIN EmployeeCategories EC ON E.EmpCategoryId = EC.EmpCategoryId
@@ -146,7 +156,8 @@
 						<td id='Wage<?= $row['EmployeeId']?>'>
 							<?= $row['Wage']; ?>
 						</td>
-					<!--If Manager/Owner -->
+						<!--If Manager/Owner -->
+						<?php if($status['EmpCategory'] == 'Manager' || $status['EmpCategory'] == 'Owner') :?>
 						<td>
 							<button class='editEmployees btn btn-info btn-sm' type='button' value='<?= $row['EmployeeId'] ?>'>Edit</button>
 							<span id='saveCancel<?= $row['EmployeeId'] ?>' class='d-none'>
@@ -157,6 +168,7 @@
 								<button class='ml-2 btn btn-danger fas fa-trash'></button>
 							</a>
 						</td>
+						<?php endif; ?>
 					</tr>
 				<?php
 				}
