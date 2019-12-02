@@ -76,6 +76,7 @@
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
+				<form id="deleteForm" method="post"	action="delMenuItem.php"></form>
 				<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 				<div id='menuItem<?= $row['ProductId'] ?>' class='my-3 p-3 bg-white rounded shadow-sm'>
 					<div class='d-flex justify-content-between border-bottom border-gray pb-2'>
@@ -87,7 +88,7 @@
 						<?php if(isset($ID)) :?>
 							<div class="d-flex flex-row-reverse bd-highlight">
 								<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button> <p>&nbsp</p>
-								<button class='delMenu btn btn-info btn-sm' type='submit' name='del_btn' value='<?= $row['ProductId'] ?>'>Delete</button>
+								<button class='delMenu btn btn-info btn-sm' type='submit' name='del_btn' value='<?= $row['ProductId'] ?>' form="deleteForm">Delete</button>
 							</div>
 							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>
 								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
