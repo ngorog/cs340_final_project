@@ -5,16 +5,3 @@
 	define('DB_NAME', 'cs340_dongrog');
 	define('CON_STRING', 'mysql:host=classmysql.engr.oregonstate.edu;dname=cs340_dongrog');
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-

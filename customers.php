@@ -6,6 +6,13 @@
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
+	if(isset($_SESSION['AccountId'])){
+		$ID = $_SESSION['AccountId'];
+	}
+	else{
+		header("Location: index.php");
+		exit();
+	}
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +34,7 @@
         <?php include 'header.php' ?>
 		<div class='container'>
             <!-- Header --> 
-           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
+           <div class='text-center p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Lucky Dragon Customer Information </h4>
            </div>
 
@@ -40,6 +47,7 @@
 						<th>First Name</th>
 						<th>Last Name</th>
 						<th>Address</th>
+						<th>Phone Number</th>
 					</tr>
 			<?php
 				$sql = "SELECT *
@@ -51,6 +59,7 @@
 						<td><?= $row['FirstName']?></td>
 						<td><?= $row['LastName']?></td>
 						<td><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['Zipcode'] ?></td>
+						<td><?= $row['PhoneNumber']?></td>
 					</tr>
 
 				<?php

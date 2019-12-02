@@ -1,16 +1,13 @@
 <?php
 	session_start();
-//	ini_set('display_errors', 1);
-//	ini_set('display_startup_errors', 1);
-//	error_reporting(-1);
-	include 'connectdb.php';	
-	include 'cart.php';	
+	include 'connectdb.php';
+	include 'cart.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		
+
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
-	
+
 	if (isset($_SESSION['AccountId'])) {
 		$ID = $_SESSION['AccountId'];
 	}
@@ -20,7 +17,7 @@
 		$total_quantity = 0;
 		$total_price = 0;
 	}
-	
+
 	$_SESSION['page'] = 1;
 	$today = date("Y-m-d");
 ?>
@@ -33,42 +30,72 @@
 		<script type='text/javascript' src="jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
 		<script src="javascript/menu.js"></script>
     </head>
 
 
     <body class='bg-light'>
-		<?php include 'header.php' ?>
+		<?php include 'header.php'?>
+
         <div class='container'>
-            <!-- Header --> 
+            <!-- Header -->
            <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
                 <h4> Menu </h4>
-                <button class='btn btn-info'>Filter</button>                      
-           </div>
+				<div class="dropdown">
+				<?php if(isset($ID)) :?>
+		        	<button class='btn btn-success btn' type='button' data-toggle="modal" data-target="#exampleModal2">Add Menu Item</button>
+				<?php endif; ?>
+					<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Filter
+					</button>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+						<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
+							<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
+							<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
+							<button class="dropdown-item" type="submit" name="reset">Clear Filter</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
 
 			<!-- Populate Menu Items -->
 			<?php
-				$sql = "SELECT *
-						FROM Product";
+				if(isset($_POST['foods_btn'])){
+					$sql = "SELECT * FROM Foods";
+				}
+				elseif (isset($_POST['drinks_btn'])){
+					$sql = "SELECT * FROM Drinks";
+				}
+				else {
+					$sql = "SELECT * FROM Product";
+				}
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
+				<form id="deleteForm" method="post"	action="delMenuItem.php"></form>
 				<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 				<div id='menuItem<?= $row['ProductId'] ?>' class='my-3 p-3 bg-white rounded shadow-sm'>
 					<div class='d-flex justify-content-between border-bottom border-gray pb-2'>
 						<a id='collapser<?= $row['ProductId'] ?>' data-toggle='collapse' href='#collapse<?= $row['ProductId']?>' role='button' aria-expanded="false" aria-controls='collapse<?= $row['ProductId']?>'>
 							<h5 id="namePrice<?= $row['ProductId'] ?>" class='d-inline'><?= $row['ProductName'] . " - $" . $row['Price']; ?></h5>
 						</a>
+
 						<!-- If Employee Logged in, allow edit -->
-						<?php if(isset($ID)) :?> 
-							<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button>
-							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>						
+						<?php if(isset($ID)) :?>
+							<div class="d-flex flex-row-reverse bd-highlight">
+								<button class='editMenu btn btn-info btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Edit</button> <p>&nbsp</p>
+								<button class='delMenu btn btn-info btn-sm' type='submit' name='del_btn' value='<?= $row['ProductId'] ?>' form="deleteForm">Delete</button>
+							</div>
+							<span id='saveCancel<?= $row['ProductId'] ?>' class='d-none'>
 								<button class='editCancel btn btn-secondary btn-sm' type='button' value='<?= $row['ProductId'] ?>'>Cancel</button>
 								<button class='editSave btn btn-success btn-sm' type='submit' value='<?= $row['ProductId']?>'>Save</button>
 							</span>
 						<?php endif; ?>
+
 
 						<!-- If Not Logged in, allow add to cart -->
 						<?php if(!isset($ID)) :?>
@@ -87,7 +114,7 @@
 							</div>
 							<div class='col-4'>
 								<img src="img/<?= $row['ProductId'].'.jpg'?>" style="max-width: 250px" class="rounded">
-							</div> 
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,7 +123,7 @@
 				}
 				$sql_get->close();
 			?>
-			  
+
 			<!-- Cart Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
@@ -166,8 +193,50 @@
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
-        <!-- End Container --> 
+
+        <!-- Add Product Modal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Menu Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+					<form method="post" action="addProduct.php" enctype="multipart/form-data">
+						<div class="form-group">
+							 <label for="exampleInputEmail1">Product Name</label>
+							 <input type="text" class="form-control" name="prodname" id="productname1" required>
+						</div>
+						<div class="form-group">
+							 <label for="price1">Price</label>
+							 <input type="number" min=0 step="0.01" class="form-control" name="prodprice"id="price1" reqired>
+						</div>
+						<div class="form-group">
+							 <label for="description1">Description</label>
+							 <input type="text" class="form-control" name="produdesc" id="description1" required>
+						</div>
+
+						<div>
+							<input type="radio" name="foodCheck" value="1" checked> Food<br>
+							<input type="radio" name="foodCheck" value="0"> Drink<br>
+						</div>
+						Select image to upload:<input type="file" name="myFile" id="myFile" required>
+						<div class="modal-footer mt-2">
+	                   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							<button type="submit" name="add_btn" class="btn btn-primary" >Add Item</button>
+						</div>
+					</form>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- End Container -->
     </body>
 </html>

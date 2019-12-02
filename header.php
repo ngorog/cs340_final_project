@@ -1,8 +1,3 @@
-<?php
-	if (isset($_SESSION['AccountId'])) {
-		$ID = $_SESSION['AccountId'];
-	}
-?>
 <nav class="navbar navbar-dark bg-nav d-flex flex-column">
 	<img src='img/logo.png' style='height: 250px' class='logo mx-auto'>
 	<div>

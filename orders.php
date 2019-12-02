@@ -6,6 +6,13 @@
 	if(!$conn){
 		die("Unable to connect to database! " . mysql_error());
 	}
+	if(isset($_SESSION['AccountId'])){
+		$ID = $_SESSION['AccountId'];
+	}
+	else{
+		header("Location: index.php");
+		exit();
+	}
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +34,8 @@
 		<?php include 'header.php' ?>
         <div class='container'>
             <!-- Header --> 
-           <div class='d-flex justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow'>
-                <h4> Lucky Dragon Order Information </h4>
+           <div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
+                <h4 class='text-center'> Lucky Dragon Order Information </h4>
            </div>
 
 			<!-- Menu Items -->
@@ -36,30 +43,32 @@
 			<!-- SQL Query -->
 			<table class='table'>
 				<thead class='thead-dark'>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Address</th>
-						<th>Products Ordered</th>
-						<th>Total Price</th>
+					<tr class='d-flex'>
+						<th class='col-2'>Date</th>
+						<th class='col-1'>First Name</th>
+						<th class='col-1'>Last Name</th>
+						<th class='col-3'>Address</th>
+						<th class='col-3'>Products Ordered</th>
+						<th class='col-2'>Total Price</th>
 					</tr>
 			<?php
-				$sql = "SELECT O.OrderID, C.FirstName, C.LastName, C.Address, C.ZipCode, C.City, C.State, P.Price, O.TotalPrice, GROUP_CONCAT(P.ProductName SEPARATOR ', ') as ProductName
+				$sql = "SELECT O.OrderID, O.Date, C.FirstName, C.LastName, C.Address, C.ZipCode, C.City, C.State, P.Price, O.TotalPrice, GROUP_CONCAT(P.ProductName SEPARATOR ', ') as ProductName
 						FROM Orders O
 						LEFT JOIN Customers C ON O.CustomerId = C.CustomerId
 						LEFT JOIN OrderList OL ON O.OrderId = OL.OrderId
 						LEFT JOIN Product P ON OL.ProductId = P.ProductId
 						GROUP BY O.OrderID 
-						ORDER BY O.OrderID ASC";
+						ORDER BY O.Date DESC";
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
-					<tr>
-						<td><?= $row['FirstName']?></td>
-						<td><?= $row['LastName']?></td>
-						<td><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['ZipCode']?></td>
-						<td><?= $row['ProductName']?></td>
-						<td><?= $row['TotalPrice']?></td>
+					<tr class='d-flex'>
+						<td class='col-2'><?= $row['Date']?></td>
+						<td class='col-1'><?= $row['FirstName']?></td>
+						<td class='col-1'><?= $row['LastName']?></td>
+						<td class='col-3'><?= $row['Address'] . ' ' . $row['City'] . ' ' . $row['State'] . ' ' . $row['ZipCode']?></td>
+						<td class='col-3'><?= $row['ProductName']?></td>
+						<td class='col-2'><?= $row['TotalPrice']?></td>
 					</tr>
 
 				<?php

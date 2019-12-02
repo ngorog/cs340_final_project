@@ -1,12 +1,8 @@
 <?php
 	session_start();
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(-1);
 	include 'connectdb.php';	
-	include 'cart.php';
-	include 'placeorder.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		
 	if(!$conn){
 		die("Unable to connect to database " . mysql_error());
 	}
@@ -20,8 +16,6 @@
 		$total_price = 0;
 	}
 	
-	$_SESSION['page'] = 3;
-
 	$today = date("Y-m-d");
 ?>
 
@@ -41,17 +35,24 @@
 
     <body class='bg-light'>
 		<?php include 'header.php' ?>
-		<div class='container-fluid'>
-			<div class='row'>
+		<div class='container'>
+			<div>
+				<!-- Get User Info -->
+				<?php
+				$id = $_GET['id'];
+				$sql = "SELECT * FROM Customers WHERE CustomerId = $id";
+				$sql_get = $conn->query($sql);
+				$row = $sql_get->fetch_assoc();
+				?>
 				<!-- CART INFORMATION -->
 				<?php if(isset($_SESSION['menu_item'])) :?>
-				<div class='col-6'>
-					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
-        		        <h4> Cart </h4>
+				<div> 
+					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow text-center'>
+        		        <h4> Thank you for ordering <?= $row['FirstName'] ?>!</h4>
 					</div>
 				
 				<?php else: ?>
-				<div class='col-12'>
+				<div>
 					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
         		        <h4 class='text-center'> Cart </h4>
 					</div>
@@ -64,7 +65,6 @@
 								<th>Name</th>
 								<th>Quantity</th>
 								<th>Price</th>
-								<th>Remove</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -77,26 +77,20 @@
 										<td><?php echo $item["Name"]; ?></td>
 										<td><?php echo $item["quantity"]; ?></td>
 										<td><?php echo "$ ".$item["Price"]; ?></td>
-										<td>
-											<a href='checkout.php?action=remove&code=<?= $item['ProductId'] ?>'>
-												<button class='btn btn-danger fas fa-trash text-center' type='submit' value='<?= $item['ProductId'] ?>'></button>
-											</a>
-										</td>
 									</tr>
 								<?php
 									$total_quantity += $item["quantity"];
 									$total_price += ($item["Price"]*$item["quantity"]);
 								}
+								unset($_SESSION['menu_item']);
+								$_SESSION = array();
+								session_destroy();
 							}
 							?>
 							<tr class='table-success'>
 								<td class='font-weight-bold'>Total</td>
 								<td class='font-weight-bold'><?= $total_quantity?></td>
 								<td class='font-weight-bold'><?= "$".$total_price ?></td>
-								<td>
-									<a class='text-center' type='submit' href='checkout.php?action=empty'>
-									<button class='btn btn-danger text-center' type='submit' href='checkout.php?action=empty'>Clear Cart</button>
-								</td>
 							</tr>
 						</tbody>
 
@@ -105,51 +99,6 @@
 						<?php endif; ?>
 					</table>
 				</div>
-				<?php if(isset($_SESSION['menu_item'])) :?>
-				<!-- ORDER INFORMATION -->
-				<div class='col-6'>
-					<div class='p-3 my-3 text-dark-50 bg-white rounded shadow'>
-        		        <h4> Checkout Information </h4>
-					</div>
-
-					<form action='' method='post'>
-						<!-- First/Last Name -->
-						<div class="row">
-						    <div class="col">
-							      <input type="text" class="form-control" name='first_name' pattern="^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$" placeholder="First name" required>
-							</div>
-							<div class="col">
-							      <input type="text" class="form-control" name='last_name' pattern="^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$" placeholder="Last name" required>
-							</div>
-							<div class="col">
-								<input type="text" class="form-control" name='phone' pattern="^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$" placeholder="Phone number" required>
-							</div>
-						</div>
-						<!-- Address Ciy State Zip -->
-						<div class="row mt-2">
-						    <div class="col">
-							      <input type="text" class="form-control" name='address' placeholder="Address" required>
-							</div>
-						    <div class="col">
-							      <input type="text" class="form-control" value='Salem' disabled>
-							</div>
-						    <div class="col">
-							      <input type="text" class="form-control" value='Oregon' disabled>
-							</div>
-						    <div class="col">
-							      <input type="text" class="form-control" name='zipcode' pattern="^\d{5}$" placeholder="Zipcode" required>
-							</div>
-						</div>
-						<!-- Submit -->
-						<div class='row mt-4'>
-							<div class='col-5'></div>
-							<div class='col'>
-								<button class='btn btn-lg btn-success' type='submit'>Place Order</button>
-							</div>
-						</div>
-					</form>
-				</div>
-				<?php endif; ?>
 			</div>
 		</div>
         <!-- End Container --> 

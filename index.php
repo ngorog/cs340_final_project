@@ -6,9 +6,6 @@
 	function alert($msg) {
 		echo "<script type='text/javascript'>alert('$msg');</script>";
 	}	
-	if (isset($_SESSION['AccountId'])) {
-		header("Location: ./index.php");
-	}
 	if (isset($_POST['login'])) {
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$pw = mysqli_real_escape_string($conn, $_POST['pw']);
@@ -24,10 +21,10 @@
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$_SESSION['AccountId'] = $row['AccountId'];
-			header("Location: ./index.php");
+			header("Location: menu.php");
 		}
 		else {
-			alert("Invalid combinations" . $username . $pw);
+			alert("Invalid combinations " . $username . $pw);
 		}
 	}
 ?> 
