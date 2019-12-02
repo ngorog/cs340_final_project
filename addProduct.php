@@ -23,7 +23,10 @@ error_reporting(-1);
 		$pPrice = $_POST["prodprice"];
 		$check = $_POST["foodCheck"];
 
-		$sql = "SELECT AUTO_INCREMENT FROM information_schema.TABLE WHERE TABLE_SCHEMA = 'cs340_dongrog' AND TABLE_NAME = 'Product'";
+		$sql = "SELECT AUTO_INCREMENT
+			FROM information_schema.TABLES
+			WHERE TABLE_SCHEMA = 'cs340_dongrog' AND
+			TABLE_NAME = 'Product'";
 		$result = $conn->query($sql);
 		$sql_res = $result->fetch_assoc();
 		$pid = $sql_res['AUTO_INCREMENT'];
@@ -46,8 +49,8 @@ error_reporting(-1);
 		$filesize = $_FILES["myFile"]["size"];
 		$filetype = $_FILES["myFile"]["type"];
 
-		$ext = pathinfo($filename, PATHINFO_EXTENSION);
-		$newname = $pid ".jpg";
+		$ext = ".jpg";
+		$newname = $pid.$ext;
 		$target = $dir.$newname;
 
 		if (file_exists($target)) {
