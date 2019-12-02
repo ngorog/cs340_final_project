@@ -12,16 +12,6 @@ error_reporting(-1);
 		$ID = $_SESSION['AccountId'];
 	}
 
-
-	$sql = "SELECT AUTO_INCREMENT
-			FROM information_schema.TABLES
-			WHERE TABLE_SCHEMA = 'cs340_dongrog' AND
-			TABLE_NAME = 'Product'";
-	$result = $conn->query($sql);
-	$sql_res = $result->fetch_assoc();
-	$pid = $sql_res['AUTO_INCREMENT'];
-	$result->close();
-
 	$pName = $pDesc = "";
 	$pPrice = $check = $isFood = $isDrink = 0;
 	$dir = "img/";
@@ -32,6 +22,13 @@ error_reporting(-1);
 		$pDesc = $_POST["produdesc"];
 		$pPrice = $_POST["prodprice"];
 		$check = $_POST["foodCheck"];
+
+		$sql = "SELECT AUTO_INCREMENT FROM information_schema.TABLE WHERE TABLE_SCHEMA = 'cs340_dongrog' AND TABLE_NAME = 'Product'";
+		$result = $conn->query($sql);
+		$sql_res = $result->fetch_assoc();
+		$pid = $sql_res['AUTO_INCREMENT'];
+		$result->close();
+
 		if ($check == "1"){
 			$isFood = "1";
 			$isDrink = "0";
@@ -50,7 +47,7 @@ error_reporting(-1);
 		$filetype = $_FILES["myFile"]["type"];
 
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
-		$newname = $pid "." . $ext;
+		$newname = $pid ".jpg";
 		$target = $dir.$newname;
 
 		if (file_exists($target)) {
@@ -65,6 +62,7 @@ error_reporting(-1);
 			echo "Only jpegs/jpg/gif/png under 1MB";
 			echo "<p>".$filename." not uploaded";
 		}
+
 	}
 	else{
 		echo "<p>Insertion Failed <br/> Some Fields are Blank....!!</p>";
