@@ -194,7 +194,7 @@
 				</div>
 			</div>
 		</div>
-		 
+
         <!-- Add Product Modal -->
         <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -206,7 +206,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-					<form method="post" action="addProduct.php">
+					<form method="post" action="addProduct.php" enctype="multipart/form-data">
 						<div class="form-group">
 							 <label for="exampleInputEmail1">Product Name</label>
 							 <input type="text" class="form-control" name="prodname" id="productname1" >
@@ -224,13 +224,14 @@
 							<input type="radio" name="foodCheck" value="1" checked> Food<br>
 						<input type="radio" name="foodCheck" value="0"> Drink<br>
 						</div>
+						Select image to upload:<input type="file" name="myFile" id="myFile">
 						<div class="modal-footer mt-2">
 	                   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-							<button type="submit" name="add_btn" class="btn btn-primary">Add Item</button>
+							<button type="submit" name="add_btn" class="btn btn-primary" >Add Item</button>
 						</div>
 					</form>
-                </div>					
-						
+                </div>
+
                 </div>
             </div>
         </div>
