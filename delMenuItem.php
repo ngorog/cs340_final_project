@@ -9,6 +9,9 @@
 		$del = $_POST['del_btn'];
 		$sql = "DELETE FROM Product WHERE ProductId = $del";
 		$conn->query($sql);
+		if (file_exists("img/$del.jpg")){
+			unlink("img/$del.jpg");
+		}
 		header("location: menu.php");
 		exit();
 	} 
