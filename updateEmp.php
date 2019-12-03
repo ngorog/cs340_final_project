@@ -60,10 +60,13 @@ if(isset($_POST["id"])){
 					EmpCategoryId  = $EmpCategory, 
 					Wage           = $Wage
 				WHERE EmployeeId   = $id";
-		$conn->query($sql);
-		header("location: employees.php");
-		exit();
-	
+		if($conn->query($sql)){
+			header("location: employees.php");
+			exit();
+		}
+		else{
+			echo $conn->error;
+		}
 	}
 } 
 ?>

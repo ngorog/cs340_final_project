@@ -10,9 +10,13 @@
 	if(isset($_POST["id"]) && !empty($_POST["id"])){
 		$id = $_POST['id'];
 		$sql = "DELETE FROM Employees WHERE EmployeeId = $id";
-		$conn->query($sql);	
-		header("location: employees.php");
-		exit();
+		if($conn->query($sql)){
+			header("location: employees.php");
+			exit();
+		}
+		else{
+			echo $conn->error;
+		}
 	} 
 ?>
 
