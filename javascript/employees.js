@@ -28,14 +28,13 @@ function editEmployees(obj){
 		$(".editEmployees[value="+eid+"]").addClass("d-none");	
 		//Add event listener to new form for submittal
 		console.log($(".editSave"+eid));
-		$("#"+eid).submit(function(d){
-			
+		$("#"+eid).submit(function(d) {	
 			console.log("in submit");
 			d.preventDefault();
 			console.log("in submit");
 			confirmEmployees($(this));		
 		});
-		$(".editCancel"+eid).on('click', function() {
+		$(".editCancel").on('click', function() {
 			cancelEmployees({id:eid});
 		});
 	});		
