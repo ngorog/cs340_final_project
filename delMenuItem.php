@@ -8,11 +8,15 @@
 	if(isset($_POST['del_btn']) and is_numeric($_POST['del_btn'])){
 		$del = $_POST['del_btn'];
 		$sql = "DELETE FROM Product WHERE ProductId = $del";
-		$conn->query($sql);
-		if (file_exists("img/$del.jpg")){
-			unlink("img/$del.jpg");
+		if($conn->query($sql)){
+			if (file_exists("img/$del.jpg")){
+				unlink("img/$del.jpg");
+			}
+			header("location: menu.php");
+			exit();
 		}
-		header("location: menu.php");
-		exit();
+		else{
+			echo 'Orders exist with this product, can not be deleted';
+		}
 	} 
 ?>

@@ -24,7 +24,7 @@ $FirstName_err = $LastName_err = $EmpCategory_err = $Wage_err = $Username_err = 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate First name
-    $FirstName = trim($_POST["FirstName"]);
+    $FirstName = $conn->real_escape_string($_POST['FirstName']);
     if(empty($FirstName)){
         $FirstName_err= "Please enter the employees first name.";
     } elseif(!filter_var($FirstName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     // Validate Last Name
-    $LastName = trim($_POST["LastName"]);
+    $LastName = $conn->real_escape_string($_POST['LastName']);
     if(empty($FirstName)){
         $LastName_err= "Please enter the employees last name.";
     } elseif(!filter_var($LastName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
@@ -49,12 +49,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
   
   	//Account Info	
-	$Username= trim($_POST["Username"]);
+    $Username = $conn->real_escape_string($_POST['Username']);
     if(empty($Username)){
         $Username_err= "Please enter the employees username.";
 	}
 	 
-	$Password = trim($_POST["Password"]);
+    $Password = $conn->real_escape_string($_POST['Password']);
     if(empty($FirstName)){
         $Password_err= "Please enter the employees password.";
 	}

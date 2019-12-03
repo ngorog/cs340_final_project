@@ -18,10 +18,10 @@ error_reporting(-1);
 	$picTypes = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
 
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$pName = $_POST["prodname"];
-		$pDesc = $_POST["produdesc"];
-		$pPrice = $_POST["prodprice"];
-		$check = $_POST["foodCheck"];
+		$pName = $conn->real_escape_string($_POST["prodname"]);
+		$pDesc = $conn->real_escape_string($_POST["produdesc"]);
+		$pPrice = $conn->real_escape_string($_POST["prodprice"]);
+		$check = $conn->real_escape_string($_POST["foodCheck"]);
 
 		$sql = "SELECT AUTO_INCREMENT
 			FROM information_schema.TABLES
@@ -52,7 +52,6 @@ error_reporting(-1);
 		$ext = ".jpg";
 		$newname = $pid.$ext;
 		$target = $dir.$newname;
-
 		if (file_exists($target)) {
 			unlink($target);
 		}

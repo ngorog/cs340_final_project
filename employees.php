@@ -91,7 +91,7 @@
 							<?php if($status['EmpCategory'] == 'Manager' || $status['EmpCategory'] == 'Owner') :?>
 								<div class="d-flex page-header clearfix justify-content-center mb-3">
 									<a href='updateEmp.php?id=<?= $row['EmployeeId'] ?>'>
-										<button class='ml-2 btn btn-info'>Edit</button>
+										<button class='ml-2 btn-sm btn-info'>Edit</button>
 									</a>
 									<a href='deleteEmployee.php?id=<?= $row['EmployeeId'] ?>'>
 										<button class='ml-2 btn btn-danger fas fa-trash'></button>

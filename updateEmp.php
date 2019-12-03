@@ -27,7 +27,7 @@ if(isset($_POST["id"])){
 
 	$id = $_POST["id"];
     
-	$FirstName = trim($_POST["FirstName"]);
+    $FirstName = $conn->real_escape_string($_POST['FirstName']);
     if(empty($FirstName)){
         $FirstName_err= "Please enter the employees first name.";
     } elseif(!filter_var($FirstName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
@@ -35,7 +35,7 @@ if(isset($_POST["id"])){
     }
 
     // Validate Last Name
-    $LastName = trim($_POST["LastName"]);
+    $LastName = $conn->real_escape_string($_POST['LastName']);
     if(empty($LastName)){
         $LastName_err= "Please enter the employees last name.";
     } elseif(!filter_var($LastName, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){

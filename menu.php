@@ -2,6 +2,7 @@
 	session_start();
 	include 'connectdb.php';
 	include 'cart.php';
+	include 'delMenuItem.php';
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 	if(!$conn){
@@ -76,7 +77,7 @@
 				$sql_get = $conn->query($sql);
 				while($row = $sql_get->fetch_assoc()){
 				?>
-				<form id="deleteForm" method="post"	action="delMenuItem.php"></form>
+				<form id="deleteForm" method="post"	action=""></form>
 				<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
 				<div id='menuItem<?= $row['ProductId'] ?>' class='my-3 p-3 bg-white rounded shadow-sm'>
 					<div class='d-flex justify-content-between border-bottom border-gray pb-2'>
