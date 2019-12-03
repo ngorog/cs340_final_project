@@ -11,6 +11,7 @@ $(document).ready(function(){
 function editMenu(obj){
 	var pid = $(obj).attr('value');
 	$(".editMenu[value="+pid+"]").addClass("d-none");
+	$(".delMenu").addClass("d-none");
 	$("#saveCancel"+pid).removeClass("d-none");
 
 	$.getJSON("javascript/AJAX/getMenuItemInfo.php", {ProductId: pid}, function(data){
@@ -60,6 +61,7 @@ function cancelMenu(obj){
 	var id = obj.id
 	//Show Edit Hide Save/Cancel
 	$("#saveCancel"+id).addClass("d-none");
+	$(".delMenu").removeClass("d-none");
 	$(".editMenu[value="+id+"]").removeClass("d-none");
 
 
