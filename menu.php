@@ -53,7 +53,7 @@
 					</button>
 
 					<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						<form method="post"	action="menu.php?action=add&code=<?= $row['ProductId'] ?>">
+						<form method="post"	action="">
 							<button class="dropdown-item" type="submit" name="foods_btn">Foods</button>
 							<button class="dropdown-item" type="submit" name="drinks_btn">Drinks</button>
 							<button class="dropdown-item" type="submit" name="reset">Clear Filter</button>
