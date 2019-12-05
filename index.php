@@ -77,10 +77,10 @@
 						?>!
 					</h2>
 					<?php if(!$_SESSION['AccountId']) :?>
-	                	<button class='btn btn-success btn-lg' type='button' data-toggle="modal" data-target="#exampleModal">Login as Manager/Owner</button>
+	                	<button class='btn btn-success btn-lg' type='button' data-toggle="modal" data-target="#exampleModal">Login as Employee</button>
 					<?php else :?>
 						<a href='menu.php'>
-		                	<button class='btn btn-success btn-lg' type='button'>Continue as Manager/Owner</button>
+		                	<button class='btn btn-success btn-lg' type='button'>Continue as Employee</button>
 						</a>
 					<?php endif ;?>
 					<?php if(!$_SESSION['AccountId']): ?>
