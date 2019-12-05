@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//Check if customer already exists
 	$sql = "SELECT CustomerId, COUNT(*) AS 'Rows'
 			FROM Customers
-			WHERE PhoneNumber = '".$phone."' AND FirstName = '".$firstname."'";
+			WHERE PhoneNumber = '".$phone."' AND Address = '".$address."' AND LastName = '".$lastname."' AND  FirstName = '".$firstname."'";
 	$sql_get = $conn->query($sql);
 	$row = $sql_get->fetch_assoc();
 	$sql_get->close(); 
